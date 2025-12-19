@@ -1,0 +1,212 @@
+:root{
+  --bg: #0b1020;
+  --panel: #121a33;
+  --panel2: #0f1730;
+  --text: #e9eeff;
+  --muted: #a8b3e6;
+  --grid: rgba(255,255,255,0.10);
+  --grid2: rgba(255,255,255,0.06);
+  --accent: #7aa2ff;
+  --danger: #ff6b6b;
+}
+
+*{ box-sizing: border-box; }
+html, body{ height: 100%; }
+body{
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  background: radial-gradient(1200px 600px at 20% 0%, rgba(122,162,255,0.20), transparent 60%),
+              radial-gradient(900px 500px at 80% 10%, rgba(255,107,107,0.10), transparent 55%),
+              var(--bg);
+  color: var(--text);
+}
+
+.app{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+  display: grid;
+  gap: 12px;
+}
+
+header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.title{
+  display: grid;
+  gap: 2px;
+}
+.title h1{
+  font-size: 16px;
+  margin: 0;
+  letter-spacing: 0.2px;
+}
+.title p{
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.tabs{
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.tab{
+  appearance: none;
+  border: 1px solid var(--grid);
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 12px;
+}
+.tab[aria-selected="true"]{
+  border-color: rgba(122,162,255,0.55);
+  background: rgba(122,162,255,0.12);
+}
+
+.card{
+  border: 1px solid var(--grid);
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  border-radius: 14px;
+  overflow: clip;
+}
+
+.card-header{
+  padding: 12px 12px 8px 12px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--grid2);
+}
+.card-header h2{
+  margin: 0;
+  font-size: 13px;
+}
+.card-header .hint{
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.inputs{
+  padding: 12px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+@media (max-width: 900px){
+  .inputs{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 520px){
+  .inputs{ grid-template-columns: 1fr; }
+}
+
+.field{
+  display: grid;
+  gap: 6px;
+}
+.field label{
+  font-size: 12px;
+  color: var(--muted);
+}
+.field input, .field select{
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--grid);
+  background: rgba(0,0,0,0.20);
+  color: var(--text);
+  padding: 10px 10px;
+  outline: none;
+}
+.field input:focus, .field select:focus{
+  border-color: rgba(122,162,255,0.7);
+  box-shadow: 0 0 0 3px rgba(122,162,255,0.15);
+}
+
+.grid-wrap{
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table.grid{
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  min-width: 780px;
+}
+
+table.grid th, table.grid td{
+  border-right: 1px solid var(--grid2);
+  border-bottom: 1px solid var(--grid2);
+  padding: 10px 10px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+table.grid th{
+  position: sticky;
+  top: 0;
+  background: rgba(10, 16, 32, 0.85);
+  backdrop-filter: blur(10px);
+  z-index: 2;
+  text-align: left;
+  color: var(--muted);
+  font-weight: 700;
+}
+table.grid th:first-child,
+table.grid td:first-child{
+  position: sticky;
+  left: 0;
+  z-index: 3;
+}
+table.grid td:first-child{
+  background: rgba(18, 26, 51, 0.75);
+  backdrop-filter: blur(10px);
+  font-weight: 700;
+}
+table.grid th:first-child{
+  z-index: 4;
+}
+
+table.grid tr:nth-child(even) td{
+  background: rgba(255,255,255,0.02);
+}
+
+.pill{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 999px;
+  background: rgba(122,162,255,0.12);
+  border: 1px solid rgba(122,162,255,0.25);
+  color: var(--text);
+  font-size: 12px;
+}
+.pill small{
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.footer{
+  color: var(--muted);
+  font-size: 12px;
+  padding: 6px 4px 0 4px;
+}
+
+.error{
+  color: var(--danger);
+  font-size: 12px;
+  padding: 10px 12px;
+  border-top: 1px solid var(--grid2);
+  background: rgba(255,107,107,0.08);
+}
+
+

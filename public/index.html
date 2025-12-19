@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1020" />
+    <title>Excel Template PWA</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <div class="title">
+          <h1>Cutlist / BOM (from TEMPLATE.xlsx)</h1>
+          <p>Offline-ready PWA • edit inputs, outputs recalc like Excel</p>
+        </div>
+        <div class="tabs" id="tabs"></div>
+      </header>
+
+      <section class="card">
+        <div class="card-header">
+          <h2 id="sheetTitle">Sheet</h2>
+          <span class="pill" id="pwaStatus" title="Install/Offline status">
+            <small>PWA</small>
+            <span id="pwaText">loading…</span>
+          </span>
+        </div>
+        <div class="inputs" id="inputs"></div>
+        <div class="grid-wrap">
+          <table class="grid" id="grid"></table>
+        </div>
+        <div class="error" id="error" style="display:none;"></div>
+      </section>
+
+      <div class="footer">
+        Tip: on mobile, swipe the table left/right; the first column and header stay pinned.
+      </div>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
+
+
