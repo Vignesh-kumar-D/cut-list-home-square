@@ -109,6 +109,20 @@ header{
   .inputs{ grid-template-columns: 1fr; }
 }
 
+.group-title{
+  grid-column: 1 / -1;
+  margin-top: 2px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--grid2);
+  color: var(--muted);
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
 .field{
   display: grid;
   gap: 6px;

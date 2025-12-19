@@ -1242,54 +1242,178 @@
       },
       "inputs": [
         {
+          "group": "BASE UNIT",
           "label": "cracase h",
           "cell": "B1",
           "type": "number"
         },
         {
-          "label": "carcse width",
-          "cell": "B2",
-          "type": "number"
-        },
-        {
-          "label": "carcase depth",
-          "cell": "B3",
-          "type": "number"
-        },
-        {
-          "label": "no of adj sheleve",
-          "cell": "D4",
-          "type": "number"
-        },
-        {
-          "label": "no of fix sheleves",
-          "cell": "D5",
-          "type": "number"
-        },
-        {
-          "label": "no of add vertical",
-          "cell": "B6",
-          "type": "number"
-        },
-        {
-          "label": "NO OF SHUTTER",
-          "cell": "B7",
-          "type": "number"
-        },
-        {
-          "label": "GOLA",
-          "cell": "B8",
-          "type": "number"
-        },
-        {
+          "group": "BASE UNIT",
           "label": "CARCASE MATERIAL",
           "cell": "D1",
           "type": "text"
         },
         {
+          "group": "BASE UNIT",
+          "label": "MINIFIX TYPE",
+          "cell": "F1",
+          "type": "text"
+        },
+        {
+          "group": "BASE UNIT",
+          "label": "carcse width",
+          "cell": "B2",
+          "type": "number"
+        },
+        {
+          "group": "BASE UNIT",
           "label": "LAM",
           "cell": "D2",
+          "type": "number"
+        },
+        {
+          "group": "BASE UNIT",
+          "label": "carcase depth",
+          "cell": "B3",
+          "type": "number"
+        },
+        {
+          "group": "BASE UNIT",
+          "label": "no of adj sheleve",
+          "cell": "B4",
+          "type": "number"
+        },
+        {
+          "group": "BASE UNIT",
+          "label": "RIGHT",
+          "cell": "D4",
+          "type": "number"
+        },
+        {
+          "group": "BASE UNIT",
+          "label": "no of fix sheleves",
+          "cell": "B5",
+          "type": "number"
+        },
+        {
+          "group": "BASE UNIT",
+          "label": "LEFT",
+          "cell": "D5",
+          "type": "number"
+        },
+        {
+          "group": "BASE UNIT",
+          "label": "no of add vertical",
+          "cell": "B6",
+          "type": "number"
+        },
+        {
+          "group": "BASE UNIT",
+          "label": "SKERTING",
+          "cell": "D6",
+          "type": "number"
+        },
+        {
+          "group": "BASE UNIT",
+          "label": "NO OF SHUTTER",
+          "cell": "B7",
+          "type": "number"
+        },
+        {
+          "group": "BASE UNIT",
+          "label": "GOLA",
+          "cell": "B8",
+          "type": "number"
+        },
+        {
+          "group": "WALL UNIT",
+          "label": "cracase h",
+          "cell": "B28",
+          "type": "number"
+        },
+        {
+          "group": "WALL UNIT",
+          "label": "CARCASE MATERIAL",
+          "cell": "D28",
           "type": "text"
+        },
+        {
+          "group": "WALL UNIT",
+          "label": "MINIFIX TYPE",
+          "cell": "F28",
+          "type": "text"
+        },
+        {
+          "group": "WALL UNIT",
+          "label": "carcse width",
+          "cell": "B29",
+          "type": "number"
+        },
+        {
+          "group": "WALL UNIT",
+          "label": "LAM",
+          "cell": "D29",
+          "type": "number"
+        },
+        {
+          "group": "WALL UNIT",
+          "label": "carcase depth",
+          "cell": "B30",
+          "type": "number"
+        },
+        {
+          "group": "WALL UNIT",
+          "label": "no of adj sheleve",
+          "cell": "B31",
+          "type": "number"
+        },
+        {
+          "group": "WALL UNIT",
+          "label": "RIGHT",
+          "cell": "D31",
+          "type": "number"
+        },
+        {
+          "group": "WALL UNIT",
+          "label": "no of fix sheleves",
+          "cell": "B32",
+          "type": "number"
+        },
+        {
+          "group": "WALL UNIT",
+          "label": "LEFT",
+          "cell": "D32",
+          "type": "number"
+        },
+        {
+          "group": "WALL UNIT",
+          "label": "no of add vertical",
+          "cell": "B33",
+          "type": "number"
+        },
+        {
+          "group": "WALL UNIT",
+          "label": "BOTTOM",
+          "cell": "D33",
+          "type": "text"
+        },
+        {
+          "group": "WALL UNIT",
+          "label": "NO OF SHUTTER",
+          "cell": "B34",
+          "type": "number"
+        },
+        {
+          "group": "WALL UNIT",
+          "label": "SKERTING",
+          "cell": "D34",
+          "type": "number"
+        },
+        {
+          "group": "WALL UNIT",
+          "label": "SHUTTER GAP H",
+          "cell": "B35",
+          "type": "number"
         }
       ],
       "table": {
@@ -2055,66 +2179,127 @@
       },
       "inputs": [
         {
+          "group": "MAIN",
           "label": "cracase h",
           "cell": "B1",
           "type": "number"
         },
         {
-          "label": "carcse width",
-          "cell": "B2",
-          "type": "number"
-        },
-        {
-          "label": "carcase depth",
-          "cell": "B3",
-          "type": "number"
-        },
-        {
-          "label": "no of adj sheleve",
-          "cell": "D4",
-          "type": "number"
-        },
-        {
-          "label": "no of fix sheleves",
-          "cell": "D5",
-          "type": "number"
-        },
-        {
-          "label": "no of add vertical",
-          "cell": "B6",
-          "type": "number"
-        },
-        {
-          "label": "NO OF SHUTTER",
-          "cell": "B7",
-          "type": "number"
-        },
-        {
-          "label": "B8",
-          "cell": "B8",
-          "type": "number"
-        },
-        {
+          "group": "MAIN",
           "label": "CARCASE MATERIAL",
           "cell": "D1",
           "type": "text"
         },
         {
-          "label": "LAM",
-          "cell": "D2",
+          "group": "MAIN",
+          "label": "MINIFIX TYPE",
+          "cell": "F1",
           "type": "text"
         },
         {
+          "group": "MAIN",
+          "label": "M+G",
+          "cell": "G1",
+          "type": "text"
+        },
+        {
+          "group": "MAIN",
+          "label": "carcse width",
+          "cell": "B2",
+          "type": "number"
+        },
+        {
+          "group": "MAIN",
+          "label": "LAM",
+          "cell": "D2",
+          "type": "number"
+        },
+        {
+          "group": "MAIN",
+          "label": "ADD ON MIN",
+          "cell": "F2",
+          "type": "number"
+        },
+        {
+          "group": "MAIN",
+          "label": "carcase depth",
+          "cell": "B3",
+          "type": "number"
+        },
+        {
+          "group": "MAIN",
+          "label": "no of adj sheleve",
+          "cell": "B4",
+          "type": "number"
+        },
+        {
+          "group": "MAIN",
+          "label": "RIGHT",
+          "cell": "D4",
+          "type": "number"
+        },
+        {
+          "group": "MAIN",
+          "label": "no of fix sheleves",
+          "cell": "B5",
+          "type": "number"
+        },
+        {
+          "group": "MAIN",
+          "label": "LEFT",
+          "cell": "D5",
+          "type": "number"
+        },
+        {
+          "group": "MAIN",
+          "label": "no of add vertical",
+          "cell": "B6",
+          "type": "number"
+        },
+        {
+          "group": "MAIN",
+          "label": "SKERTING",
+          "cell": "D6",
+          "type": "number"
+        },
+        {
+          "group": "MAIN",
+          "label": "NO OF SHUTTER",
+          "cell": "B7",
+          "type": "number"
+        },
+        {
+          "group": "DR",
+          "label": "DR WIDTH",
+          "cell": "B21",
+          "type": "number"
+        },
+        {
+          "group": "DR",
+          "label": "DEPTH",
+          "cell": "D21",
+          "type": "number"
+        },
+        {
+          "group": "DR",
           "label": "DR FACIA HEIGTH",
           "cell": "B22",
           "type": "number"
         },
         {
+          "group": "DR",
           "label": "MATERIAL",
           "cell": "D22",
           "type": "text"
         },
         {
+          "group": "DR",
+          "label": "DUMMY",
+          "cell": "B23",
+          "type": "number"
+        },
+        {
+          "group": "DR",
           "label": "NO OF DUMMY",
           "cell": "B24",
           "type": "number"

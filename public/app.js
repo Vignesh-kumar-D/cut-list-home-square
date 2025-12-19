@@ -74,7 +74,18 @@ function renderInputs(sheetModel, overrides, onChange) {
   const container = $("#inputs");
   container.innerHTML = "";
 
-  for (const inp of sheetModel.inputs) {
+  // group inputs by section (e.g., BASE UNIT / WALL UNIT / DR)
+  const groups = new Map();
+  for (const inp of sheetModel.inputs || []) {
+    const g = inp.group || "INPUTS";
+    if (!groups.has(g)) groups.set(g, []);
+    groups.get(g).push(inp);
+  }
+
+  for (const [groupName, inputs] of groups.entries()) {
+    container.append(el("div", { class: "group-title" }, [document.createTextNode(groupName)]));
+
+    for (const inp of inputs) {
     const { label, cell, type } = inp;
     const key = cell.replace(/\$/g, "").toUpperCase();
     const base = sheetModel.cells[key]?.v ?? "";
@@ -97,6 +108,7 @@ function renderInputs(sheetModel, overrides, onChange) {
         input,
       ])
     );
+    }
   }
 }
 
@@ -160,7 +172,7 @@ async function registerServiceWorker() {
 
 function loadOverrides(sheetName) {
   try {
-    const raw = localStorage.getItem(`overrides:${sheetName}`);
+    const raw = localStorage.getItem(`overrides:${sheetKey(sheetName)}`);
     return raw ? JSON.parse(raw) : {};
   } catch {
     return {};
@@ -169,10 +181,14 @@ function loadOverrides(sheetName) {
 
 function saveOverrides(sheetName, overrides) {
   try {
-    localStorage.setItem(`overrides:${sheetName}`, JSON.stringify(overrides));
+    localStorage.setItem(`overrides:${sheetKey(sheetName)}`, JSON.stringify(overrides));
   } catch {
     // ignore
   }
+}
+
+function sheetKey(name) {
+  return (name || "").trim().replace(/\s+/g, "_");
 }
 
 function showError(msg) {

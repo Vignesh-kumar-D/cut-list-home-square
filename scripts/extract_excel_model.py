@@ -19,7 +19,6 @@ import argparse
 import json
 import re
 import zipfile
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -143,6 +142,116 @@ def parse_sheet_cells(
     return cells
 
 
+def parse_styles(z: zipfile.ZipFile) -> Tuple[List[Optional[Dict[str, Any]]], List[Dict[str, Any]]]:
+    """
+    Returns:
+      fills: list indexed by fillId (patternFill + fgColor/bgColor)
+      xfs: list indexed by style index `s` found on <c> elements (xf -> fillId)
+    """
+    root = ET.fromstring(z.read("xl/styles.xml"))
+
+    fills: List[Optional[Dict[str, Any]]] = []
+    fills_el = root.find("main:fills", NS)
+    if fills_el is not None:
+        for fill in fills_el.findall("main:fill", NS):
+            pat = fill.find("main:patternFill", NS)
+            if pat is None:
+                fills.append(None)
+                continue
+            fg = pat.find("main:fgColor", NS)
+            bg = pat.find("main:bgColor", NS)
+            fills.append(
+                {
+                    "patternType": pat.attrib.get("patternType"),
+                    "fg": fg.attrib if fg is not None else None,
+                    "bg": bg.attrib if bg is not None else None,
+                }
+            )
+
+    xfs: List[Dict[str, Any]] = []
+    xfs_el = root.find("main:cellXfs", NS)
+    if xfs_el is not None:
+        for xf in xfs_el.findall("main:xf", NS):
+            xfs.append(
+                {
+                    "fillId": int(xf.attrib.get("fillId", "0")),
+                    "applyFill": xf.attrib.get("applyFill") == "1",
+                }
+            )
+
+    return fills, xfs
+
+
+def fill_is_colored(fills: List[Optional[Dict[str, Any]]], fill_id: int) -> bool:
+    """
+    Heuristic for "colored" input cells:
+    - ignore default fills 0/1
+    - require a non-none patternFill and some fgColor reference (rgb/theme/indexed)
+    """
+    if fill_id in (0, 1):
+        return False
+    if fill_id < 0 or fill_id >= len(fills):
+        return False
+    fill = fills[fill_id]
+    if not fill:
+        return False
+    pat = fill.get("patternType")
+    if pat in (None, "none"):
+        return False
+    fg = fill.get("fg") or {}
+    return any(k in fg for k in ("rgb", "theme", "indexed"))
+
+
+def sheet_section_title(sheet_name: str, cells: Dict[str, Dict[str, Any]], row: int) -> str:
+    name = sheet_name.strip().upper()
+    if name == "KITCHEN":
+        # Look for nearest marker in column J at or above the row (BASE UNIT / WALL UNIT)
+        for r in range(row, 0, -1):
+            v = cells.get(f"J{r}", {}).get("v")
+            if isinstance(v, str) and v.strip().upper().endswith("UNIT"):
+                return v.strip()
+        return "BASE UNIT"
+
+    if "WARDROBE" in name:
+        # DR block is around rows 21-24 in this template
+        if 21 <= row <= 24:
+            return "DR"
+        a = cells.get(f"A{row}", {}).get("v")
+        if isinstance(a, str) and a.strip().upper().startswith("DR"):
+            return "DR"
+        return "MAIN"
+
+    return "INPUTS"
+
+
+def infer_input_label(cells: Dict[str, Dict[str, Any]], addr: str) -> str:
+    col, row = split_addr(addr)
+    left_col_num = col_to_num(col) - 1
+    if left_col_num >= 1:
+        left = f"{num_to_col(left_col_num)}{row}"
+        lv = cells.get(left, {}).get("v")
+        if isinstance(lv, str):
+            s = lv.strip()
+            if s and s.upper() != "EXPOSED":
+                return s
+    return addr
+
+
+def infer_input_type(val: Any) -> str:
+    if val is None:
+        return "number"
+    if isinstance(val, str):
+        s = val.strip()
+        if s == "":
+            return "number"
+        try:
+            float(s)
+            return "number"
+        except Exception:
+            return "text"
+    return "number"
+
+
 def guess_header_row(cells: Dict[str, Dict[str, Any]], max_scan_rows: int = 30) -> int:
     # heuristic: within first N rows, row with max textual values
     score_by_row: Dict[int, int] = {}
@@ -255,6 +364,7 @@ def main() -> None:
     with zipfile.ZipFile(xlsx, "r") as z:
         shared = parse_shared_strings(z)
         sheets = workbook_sheets(z)
+        fills, xfs = parse_styles(z)
         model: Dict[str, Any] = {"source": str(xlsx.name), "sheets": {}}
 
         for sheet_name, sheet_path in sheets:
@@ -263,15 +373,36 @@ def main() -> None:
             end_row = infer_table_end(cells, start_row)
             cols = infer_table_columns(cells, start_row, end_row)
 
-            # attach labels for inputs
-            inputs = []
-            for inp in labeled_inputs_for_sheet(sheet_name):
-                label = cells.get(inp["label_cell"], {}).get("v")
+            # Inputs are defined by colored cells in the Excel template
+            # (anything with a non-default fill). These can be raw values or formulas;
+            # the web app allows overriding either.
+            sheet_root = ET.fromstring(z.read(sheet_path))
+            colored_addrs: List[str] = []
+            for c in sheet_root.findall(".//main:sheetData/main:row/main:c", NS):
+                addr = c.attrib.get("r")
+                if not addr:
+                    continue
+                s_idx = int(c.attrib.get("s", "0"))
+                xf = xfs[s_idx] if s_idx < len(xfs) else {"fillId": 0}
+                fill_id = int(xf.get("fillId", 0))
+                if fill_is_colored(fills, fill_id):
+                    colored_addrs.append(addr.upper())
+
+            def sort_key(a: str) -> Tuple[int, int]:
+                col, row = split_addr(a)
+                return row, col_to_num(col)
+
+            inputs: List[Dict[str, Any]] = []
+            for addr in sorted(set(colored_addrs), key=sort_key):
+                v = cells.get(addr, {}).get("v")
+                if isinstance(v, str) and v.strip().upper() == "EXPOSED":
+                    continue
                 inputs.append(
                     {
-                        "label": str(label).strip() if label is not None else inp["cell"],
-                        "cell": inp["cell"],
-                        "type": inp["type"],
+                        "group": sheet_section_title(sheet_name, cells, split_addr(addr)[1]),
+                        "label": infer_input_label(cells, addr),
+                        "cell": addr,
+                        "type": infer_input_type(v),
                     }
                 )
 

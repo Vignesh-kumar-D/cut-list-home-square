@@ -20,6 +20,22 @@ python3 -m http.server 5173
 
 Then open `http://localhost:5173`.
 
+## Deploy to Netlify (recommended)
+This is a pure static site.
+
+### Option A: GitHub → Netlify (best for updates)
+- Push this folder to a GitHub repo
+- In Netlify: **Add new site → Import an existing project**
+- Select your repo
+- Set:
+  - **Build command**: (leave empty)
+  - **Publish directory**: `public`
+- Deploy
+
+### Option B: Drag-and-drop
+- In Netlify: **Add new site → Deploy manually**
+- Drag the `public/` folder into Netlify’s upload area
+
 ## Install as PWA (mobile)
 - **Android Chrome**: open the site → browser menu → “Install app”
 - After the first load, try airplane mode: the app should still open and work.
@@ -34,6 +50,11 @@ python3 scripts/extract_excel_model.py \
 ```
 
 Then refresh the web page.
+
+### PWA update tip (important)
+If you change `model.json` or any JS/CSS and redeploy, users may still have the old service worker cache.
+If you ever see “old data” after deploying, bump the cache version in `public/sw.js`:
+`const CACHE_NAME = "cutlist-pwa-v2";`
 
 ## Files
 - `public/index.html`: UI shell
