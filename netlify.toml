@@ -1,0 +1,23 @@
+[build]
+  publish = "public"
+
+# PWA-friendly caching:
+# - Never aggressively cache the service worker; it controls updates.
+# - Cache other static assets normally.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/manifest.webmanifest"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+
+
